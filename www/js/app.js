@@ -29,9 +29,14 @@ function discoverAPI(term, page) {
   if (/^\d{10}$/.exec(term)) {
     // npi
     part = "limit=10&offset=" + skip + "&key1=npi&op1=eq&value1=" + term;
-  } else if (/^(\d{5}|\d{9})$/.exec(term)) {
+  } else if (/(\d{5}|\d{9})/.exec(term)) {
     // zipcode
-    part = "limit=10&offset=" + skip + "&key1=practice_address.zip&op1=eq&value1=" + term;
+    console.log('zipcode')
+    part = "limit=10&offset=" + skip + "&key1=practice_address.zip&op1=in";
+    term.split(',').forEach(function(t){
+        part += '&value1[]='+t;
+    });
+    //part = "limit=10&offset=" + skip + "&key1=practice_address.zip&op1=eq&value1=" + term;
   } else if (/^([a-zA-Z]+)$/.exec(term)) {
     // lastname
     part = "limit=10&offset=" + skip + "&key1=last_name&op1=eq&value1=" + term.toUpperCase();
